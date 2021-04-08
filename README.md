@@ -19,7 +19,7 @@ Then use the following commands to install Kubeflow to minikube.
 ```sh
 # tag of the Kubeflow version
 VERSION=v1.3-branch
-minikube start --driver=hyperkit --addons=ingress,metrics-server --memory=14g --cpus=4
+minikube start --driver=hyperkit --addons=ingress,metrics-server --memory=14g --cpus=4 --disk-size='30000mb'
 git clone https://github.com/kubeflow/manifests.git
 cd manifests
 git checkout $VERSION
