@@ -35,7 +35,7 @@ The above only works as the manifest has been compiled before. This needs to be 
 ```bash
 mkdir -p datalab-kubeflow
 cp ./manifests/example/kustomization.yaml ./datalab-kubeflow/
-gsed -i "s#- ../#- ../manifests/#g" ./datalab-kubeflow/kustomization.yaml
+gsed -i "s#- *\.\./#- \.\./manifests/#" ./datalab-kubeflow/kustomization.yaml
 # manually:
 # - remove cert-manager (deployed differently)
 ```
