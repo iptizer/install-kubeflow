@@ -23,7 +23,7 @@ VERSION=v1.5.0 && \
 minikube start --kubernetes-version=v1.20.7 --driver=hyperkit --addons=ingress,metrics-server --memory=14g --cpus=8 --disk-size='30000mb' && \
 git clone https://github.com/kubeflow/manifests.git --branch $VERSION && \
 
-while ! kustomize build --load_restrictor=none ./kustomization.yaml | kubectl apply -f -; do echo "Retrying to apply resources"; sleep 10; done && \
+while ! kustomize build --load_restrictor=none ./datalab-kubeflow/ | kubectl apply -f -; do echo "Retrying to apply resources"; sleep 10; done && \
 sleep 600 && \
 kubectl port-forward svc/istio-ingressgateway -n istio-system 8080:80
 ```
@@ -33,8 +33,11 @@ kubectl port-forward svc/istio-ingressgateway -n istio-system 8080:80
 The above only works as the manifest has been compiled before. This needs to be re-done when a new Kubeflow version is provided. Below the steps taken for the 1.5 release.
 
 ```bash
-cp ./manifests/example/kustomization.yaml .
-gsed -i 
+mkdir -p datalab-kubeflow
+cp ./manifests/example/kustomization.yaml ./datalab-kubeflow/
+gsed -i "s#- ../#- ../manifests/#g" ./datalab-kubeflow/kustomization.yaml
+# manually:
+# - remove cert-manager (deployed differently)
 ```
 
 Some things take up to 1 hour to work.-.. so be patient.
