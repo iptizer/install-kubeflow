@@ -17,15 +17,24 @@ kustomize version
 Then use the following commands to install Kubeflow to minikube.
 
 ```sh
+rm -rf manifests/
 # tag of the Kubeflow version
-VERSION=v1.4.1 && \
+VERSION=v1.5.0 && \
 minikube start --kubernetes-version=v1.20.7 --driver=hyperkit --addons=ingress,metrics-server --memory=14g --cpus=8 --disk-size='30000mb' && \
-git clone https://github.com/kubeflow/manifests.git && \
-cd manifests && \
-git checkout $VERSION && \
-while ! kustomize build --load_restrictor=none example | kubectl apply -f -; do echo "Retrying to apply resources"; sleep 10; done && \
+git clone https://github.com/kubeflow/manifests.git --branch $VERSION && \
+
+while ! kustomize build --load_restrictor=none ./kustomization.yaml | kubectl apply -f -; do echo "Retrying to apply resources"; sleep 10; done && \
 sleep 600 && \
 kubectl port-forward svc/istio-ingressgateway -n istio-system 8080:80
+```
+
+## build kustomize.yaml
+
+The above only works as the manifest has been compiled before. This needs to be re-done when a new Kubeflow version is provided. Below the steps taken for the 1.5 release.
+
+```bash
+cp ./manifests/example/kustomization.yaml .
+gsed -i 
 ```
 
 Some things take up to 1 hour to work.-.. so be patient.
