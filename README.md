@@ -38,6 +38,8 @@ cp ./manifests/example/kustomization.yaml ./datalab-kubeflow/
 gsed -i "s#- *\.\./#- \.\./manifests/#" ./datalab-kubeflow/kustomization.yaml
 # manually:
 # - remove cert-manager (deployed differently)
+
+# after that I had to manually remove a few CRDs from knative side
 ```
 
 Some things take up to 1 hour to work.-.. so be patient.
